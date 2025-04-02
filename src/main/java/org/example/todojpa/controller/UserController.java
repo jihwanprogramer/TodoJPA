@@ -1,8 +1,7 @@
 package org.example.todojpa.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.todojpa.dto.TodoRequestDto;
-import org.example.todojpa.dto.TodoResponseDto;
+
 import org.example.todojpa.dto.UserRequestDto;
 import org.example.todojpa.dto.UserResponseDto;
 import org.example.todojpa.service.UserService;
@@ -59,5 +58,6 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 }
