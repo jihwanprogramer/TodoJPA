@@ -8,4 +8,6 @@ import lombok.Getter;
 public class LoginResponseDto {
 
     private final Long id;
+
+
 }
