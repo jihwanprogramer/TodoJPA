@@ -1,9 +1,13 @@
 package org.example.todojpa.controller;
 
-import jakarta.persistence.Column;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.todojpa.common.Const;
 import org.example.todojpa.dto.TodoRequestDto;
 import org.example.todojpa.dto.TodoResponseDto;
+import org.example.todojpa.dto.UserResponseDto;
 import org.example.todojpa.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +24,11 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    public ResponseEntity<TodoResponseDto> save(@RequestBody TodoRequestDto todoRequestDto) {
+    public ResponseEntity<TodoResponseDto> save(@RequestBody TodoRequestDto todoRequestDto, HttpServletRequest request) {
 
-        TodoResponseDto save = todoService.save(todoRequestDto.getEmail(),todoRequestDto.getPassword(),todoRequestDto.getTitle(), todoRequestDto.getContents());
+        HttpSession session = request.getSession(false);
+        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
+        TodoResponseDto save = todoService.save(loginUser.getEmail(),todoRequestDto.getTitle(), todoRequestDto.getContents());
 
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
