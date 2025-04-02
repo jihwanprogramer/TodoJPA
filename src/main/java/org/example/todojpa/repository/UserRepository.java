@@ -1,6 +1,5 @@
 package org.example.todojpa.repository;
 
-import org.example.todojpa.entity.Todo;
 import org.example.todojpa.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
