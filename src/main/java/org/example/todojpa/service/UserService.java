@@ -1,8 +1,6 @@
 package org.example.todojpa.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.todojpa.dto.TodoResponseDto;
-import org.example.todojpa.dto.UserRequestDto;
 import org.example.todojpa.dto.UserResponseDto;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.UserRepository;
@@ -45,4 +43,5 @@ public class UserService {
         User deleteUser = userRepository.findByIdOrElseThrow(id);
         userRepository.delete(deleteUser);
     }
+
 }
