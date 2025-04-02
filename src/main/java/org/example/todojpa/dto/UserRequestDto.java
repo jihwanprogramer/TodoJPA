@@ -1,7 +1,5 @@
 package org.example.todojpa.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
