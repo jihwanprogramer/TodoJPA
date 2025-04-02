@@ -6,8 +6,10 @@ import org.example.todojpa.entity.Todo;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.TodoRepository;
 import org.example.todojpa.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,15 +20,20 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
 
-    public TodoResponseDto save(Long userId,String title, String contents) {
+    public TodoResponseDto save(String email,String password,String title, String contents) {
 
-        User findUser = userRepository.findByIdOrElseThrow(userId);
+        User findUser = userRepository.findByEmailOrElseThrow(email);
+
+        if(!findUser.getPassword().equals(password)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호가 일치하지않음");
+        }
+
         Todo todo = new Todo(title, contents);
         todo.setUser(findUser);
 
         Todo save = todoRepository.save(todo);
 
-        return new TodoResponseDto(save.getId(), save.getTitle(), save.getContents());
+        return new TodoResponseDto(save.getId(),save.getUser().getEmail(),save.getTitle(), save.getContents());
 
     }
 
