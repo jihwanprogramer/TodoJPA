@@ -4,13 +4,14 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.todojpa.common.Const;
 import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
 public class LoginFilter implements Filter {
 
-    private static final String[] WHITE_LIST = {"/","/users/signup1","/login","/logout"};
+    private static final String[] WHITE_LIST = {"/users/signup","/logout","/session-login"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -19,9 +20,9 @@ public class LoginFilter implements Filter {
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        if(isWhiteList(requestURI)){
+        if(!isWhiteList(requestURI)){
             HttpSession session = httpRequest.getSession(false);
-            if (session == null || session.getAttribute("sessionKey") == null){
+            if (session == null || session.getAttribute(Const.LOGIN_USER) == null){
                 throw new RuntimeException("로그인 해주세요");
             }
         }
