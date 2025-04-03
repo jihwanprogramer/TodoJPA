@@ -20,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 이메일이 존재하지 않습니다 : " + email));
     }
 
+    default boolean hasSameEmail(String email){
+        return findByEmail(email).isPresent();
+    }
 }
