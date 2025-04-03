@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class LoginFilter implements Filter {
 
-    private static final String[] WHITE_LIST = {"/users/signup","/logout","/session-login"};
+    private static final String[] WHITE_LIST = {"/users/signup","/logout","/session-login","/check"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
