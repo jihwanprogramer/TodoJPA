@@ -26,10 +26,10 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/session-login")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto dto, HttpServletRequest request){
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto dto, HttpServletRequest request) {
         LoginResponseDto loginResponseDto = loginService.login(dto.getEmail(), dto.getPassword());
 
-        if(loginResponseDto.getId()==null){
+        if (loginResponseDto.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -37,26 +37,26 @@ public class LoginController {
         UserResponseDto loginUser = userService.findById(loginResponseDto.getId());
         session.setAttribute(Const.LOGIN_USER, loginUser);
 
-        return new ResponseEntity<>(loginResponseDto,HttpStatus.OK);
+        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/session-logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/check")
     public ResponseEntity<String> check(
             @NotBlank(message = "이메일 입력은 필수 입니다.")
             @Email
-            @RequestParam String email){
+            @RequestParam String email) {
         String result = loginService.getEmail(email);
 
-        return new ResponseEntity<>(result,HttpStatus.OK);
-    }
-
-    @PostMapping("/session-logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-
-        if(session != null){
-            session.invalidate();
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
