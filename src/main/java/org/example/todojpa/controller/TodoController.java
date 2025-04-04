@@ -23,6 +23,13 @@ public class TodoController {
 
     private final TodoService todoService;
 
+    /**
+     * 새로운 Todo 항목을 저장하는 API입니다.
+     *
+     * @param todoRequestDto Todo 요청 데이터
+     * @param request HTTP 요청 객체
+     * @return 생성된 Todo의 응답 데이터와 함께 201 Created 상태 코드
+     */
     @PostMapping
     public ResponseEntity<TodoResponseDto> save(@Valid @RequestBody TodoRequestDto todoRequestDto, HttpServletRequest request) {
 
@@ -33,6 +40,11 @@ public class TodoController {
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
+    /**
+     * 모든 Todo 항목을 조회하는 API입니다.
+     *
+     * @return Todo 목록과 함께 200 OK 상태 코드
+     */
     @GetMapping
     public ResponseEntity<List<TodoResponseDto>> findAll() {
 
@@ -41,6 +53,12 @@ public class TodoController {
         return new ResponseEntity<>(todoResponseList, HttpStatus.OK);
     }
 
+    /**
+     * ID로 Todo 항목을 조회하는 API입니다.
+     *
+     * @param id Todo 항목의 ID
+     * @return 조회된 Todo의 응답 데이터와 함께 200 OK 상태 코드
+     */
     @GetMapping("/{id}")
     public ResponseEntity<TodoResponseDto> findById(@PathVariable Long id) {
 
@@ -49,6 +67,13 @@ public class TodoController {
         return new ResponseEntity<>(find, HttpStatus.OK);
     }
 
+    /**
+     * Todo 항목을 수정하는 API입니다.
+     *
+     * @param id Todo 항목의 ID
+     * @param todoRequestDto 수정할 Todo 데이터
+     * @return 수정된 Todo의 응답 데이터와 함께 200 OK 상태 코드
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<TodoResponseDto> updateTodo(@Valid @PathVariable Long id, @RequestBody TodoRequestDto todoRequestDto) {
 
@@ -57,6 +82,12 @@ public class TodoController {
         return new ResponseEntity<>(updateTodo, HttpStatus.OK);
     }
 
+    /**
+     * Todo 항목을 삭제하는 API입니다.
+     *
+     * @param id Todo 항목의 ID
+     * @return 200 OK 상태 코드
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
 

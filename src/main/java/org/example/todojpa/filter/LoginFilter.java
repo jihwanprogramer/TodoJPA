@@ -20,6 +20,7 @@ public class LoginFilter implements Filter {
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        // 화이트리스트에 없는 요청에 대해 로그인 체크
         if (!isWhiteList(requestURI)) {
             HttpSession session = httpRequest.getSession(false);
             if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
@@ -34,6 +35,12 @@ public class LoginFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    /**
+     * 요청 URI가 화이트리스트에 포함되어 있는지 확인합니다.
+     *
+     * @param requestURI 요청 URI
+     * @return 화이트리스트에 포함되어 있으면 true, 그렇지 않으면 false
+     */
     private boolean isWhiteList(String requestURI) {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURI);
     }

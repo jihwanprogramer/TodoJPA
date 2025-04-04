@@ -25,6 +25,14 @@ public class LoginController {
     private final LoginService loginService;
     private final UserService userService;
 
+    /**
+     * 사용자의 로그인 요청을 처리합니다.
+     *
+     * @param dto 로그인 요청 데이터
+     * @param request HTTP 요청 객체
+     * @return 로그인 응답 데이터와 함께 200 OK 상태 코드 또는 404 Not Found
+     */
+
     @PostMapping("/session-login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto dto, HttpServletRequest request) {
         LoginResponseDto loginResponseDto = loginService.login(dto.getEmail(), dto.getPassword());
@@ -40,6 +48,13 @@ public class LoginController {
         return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
 
+    /**
+     * 사용자의 로그아웃 요청을 처리합니다.
+     *
+     * @param request HTTP 요청 객체
+     * @return 200 OK 상태 코드
+     */
+
     @PostMapping("/session-logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -49,6 +64,13 @@ public class LoginController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * 이메일의 존재 여부를 확인하는 API입니다.
+     *
+     * @param email 확인할 이메일
+     * @return 이메일의 존재 여부 결과와 함께 200 OK 상태 코드
+     */
 
     @GetMapping("/check")
     public ResponseEntity<String> check(
