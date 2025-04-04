@@ -1,11 +1,15 @@
 package org.example.todojpa.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class TodoRequestDto {
+
+    @Size(min = 2, message = "두글자 이상 입력하세요")
     private final String title;
+
+    @NotBlank(message = "내용을 입력하세요")
     private final String contents;
 }
