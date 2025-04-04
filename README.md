@@ -9,35 +9,49 @@
 - 프로젝트 설명: Spring 프레임워크 와 JPA 를 이용하여 간단한 일정 관리를 만듬.
 
 ## API 명세서
-https://documenter.getpostman.com/view/43187382/2sAYkHpJQY
+
+https://documenter.getpostman.com/view/43187382/2sB2cU9Mnd
 
 ## ERD
+
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FpDVDS%2FbtsMURuLSF4%2F1G58ltbMQbeYYsTcXUKJPK%2Fimg.png" alt="배너" width="100%"/>
-
-
-
 
 # 2. Key Features (주요 기능)
 
+- **사용자 등록**
+    - 사용자는 새로운 계정을 생성할 수 있으며, 이메일과 비밀번호를 입력하여 등록함.
+
+
+- **사용자 로그인**
+    - 사용자는 등록된 이메일과 비밀번호로 로그인할 수 있으며, 로그인 성공 시 사용자 정보를 반환함.
+
+
+- **사용자 정보 조회**
+    - 사용자는 자신의 ID로 정보 조회가 가능하며, UserResponseDto 형식으로 사용자 정보를 제공함.
+
+
+- **사용자 정보 수정**
+    - 사용자는 자신의 사용자 이름과 이메일을 수정할 수 있으며, 수정된 정보가 반환됨.
+
+
+- **사용자 삭제**
+    - 사용자는 자신의 계정을 삭제할 수 있으며, 해당 ID로 사용자를 찾아 삭제를 수행함.
+
+
 - **Todo 항목 생성**
-    - 사용자는 새로운 Todo 항목을 생성할 수 있음
+    - 사용자는 새로운 Todo 항목을 생성할 수 있으며, 제목과 내용을 입력하여 저장함..
 
 
 - **Todo 항목 조회**
-    - 사용자는 ID로 특정 Todo 항목을 조회할 수 있음
-
-- **조건에 맞는 Todo 조회**
-    - 사용자는 수정일 또는 작성자 이름에 따라 Todo 항목을 필터링하여 조회 가능
+    - 사용자는 ID로 특정 Todo 항목을 조회할 수 있으며, TodoResponseDto 형식으로 항목 정보를 제공함.
 
 
 - **Todo 항목 수정**
-    - 사용자는 기존의 Todo 항목을 수정 가능
+    - 사용자는 기존의 Todo 항목을 수정할 수 있으며, 새로운 제목과 내용을 입력하여 업데이트함.
 
 
 - **Todo 항목 삭제**
-    - 사용자는 ID로 특정 Todo 항목을 삭제
-
-
+    - 사용자는 ID로 특정 Todo 항목을 삭제할 수 있으며, 해당 ID로 Todo를 찾아 삭제를 수행함.
 
 # 3. Technology Stack (기술 스택)
 
@@ -47,7 +61,8 @@ https://documenter.getpostman.com/view/43187382/2sAYkHpJQY
 |--------|------------------------------------------------------------------------------------------------------------------|
 | Java   | <img src="https://github.com/jihwanprogramer/calulators/blob/main/img/Java.jpg?raw=true" alt="Java" width="200"> | 
 | Spring | Spring Framework를 사용하여 RESTful API 구현                                                                            |
-| JDBC   | 데이터베이스와의 연결 및 CRUD 작업을 위한 JDBC 사용                                                                                |
+| JPA    | 데이터베이스와의 연결 및 CRUD 작업을 위한 JPA 사용                                                                                 |
+
 ## Version Control
 
 |     |                                                                                                   |
@@ -69,20 +84,62 @@ https://documenter.getpostman.com/view/43187382/2sAYkHpJQY
 ```
 todoProject
 ├── src/
-│   ├── controller/                 # TodoController 클래스 (REST API 엔드포인트)
-│   │   └── TodoController.java
-│   ├── dto/                        # 데이터 전송 객체 (DTO)
-│   │   ├── TodoRequestDto.java     # 요청 DTO
-│   │   └── TodoResponseDto.java    # 응답 DTO
-│   ├── entity/                     # Todo 엔티티 클래스
-│   │   └── Todo.java
-│   ├── repository/                 # 데이터베이스 작업을 처리하는 리포지토리
-│   │   ├── TodoRepository.java     # 인터페이스
-│   │   └── TodoRepositoryImpl.java # 구현 클래스
-│   └── service/                    # 비즈니스 로직을 처리하는 서비스
-│       ├── TodoService.java        # 인터페이스
-│       └── TodoServiceImpl.java    # 구현 클래스
-└── README.md                       # 프로젝트 개요 및 사용법
+│   ├── TodoJpaApplication.java          # 애플리케이션의 진입점
+│   │
+│   ├── common                             # 공통 상수 및 유틸리티 클래스
+│   │   └── Const.java
+│   │
+│   ├── config                             # 설정 관련 클래스
+│   │   ├── PasswordEncoder.java           # 비밀번호 인코딩 관련 설정
+│   │   └── WebConfig.java                 # 웹 관련 설정
+│   │
+│   ├── controller                         # REST API 엔드포인트
+│   │   ├── LoginController.java           # 로그인 관련 API
+│   │   ├── TodoController.java            # Todo 관련 API
+│   │   └── UserController.java            # 사용자 관련 API
+│   │
+│   ├── dto                                # 데이터 전송 객체 (DTO)
+│   │   ├── ErrorResponseDto.java          # 오류 응답 DTO
+│   │   ├── LoginRequestDto.java           # 로그인 요청 DTO
+│   │   ├── LoginResponseDto.java          # 로그인 응답 DTO
+│   │   ├── TodoRequestDto.java            # Todo 요청 DTO
+│   │   ├── TodoResponseDto.java           # Todo 응답 DTO
+│   │   ├── UserRequestDto.java            # 사용자 요청 DTO
+│   │   └── UserResponseDto.java           # 사용자 응답 DTO
+│   │
+│   ├── entity                             # 엔티티 클래스
+│   │   ├── BaseEntity.java                # 기본 엔티티 클래스
+│   │   ├── Todo.java                      # Todo 엔티티 클래스
+│   │   └── User.java                      # 사용자 엔티티 클래스
+│   │
+│   ├── Exception                          # 사용자 정의 예외 클래스
+│   │   ├── PasswordEqualsCheckException.java # 비밀번호 불일치 예외
+│   │   └── TodoNotFindException.java      # Todo 항목 미발견 예외
+│   │
+│   ├── filter                             # 필터 클래스
+│   │   └── LoginFilter.java               # 로그인 필터 클래스
+│   │
+│   ├── handler                            # 예외 처리 클래스
+│   │   └── AllExceptionHandler.java       # 모든 예외를 처리하는 핸들러
+│   │
+│   ├── repository                         # 데이터베이스 작업을 처리하는 리포지토리
+│   │   ├── TodoRepository.java            # Todo 리포지토리 인터페이스
+│   │   └── UserRepository.java            # 사용자 리포지토리 인터페이스
+│   │
+│   └── service                            # 비즈니스 로직을 처리하는 서비스
+│       ├── LoginService.java              # 로그인 서비스
+│       ├── TodoService.java               # Todo 서비스
+│       └── UserService.java               # 사용자 서비스
+│
+└── resources
+    ├── application.properties              # 애플리케이션 설정 파일
+    ├── static                              # 정적 자원 (CSS, JS, 이미지 등)
+    └── templates                           # 템플릿 파일 (HTML 등)
+
+test
+└── java
+    └── TodoJpaApplicationTests.java        # 애플리케이션 테스트 클래스
+
 ```
 
 <br/>
@@ -99,26 +156,18 @@ todoProject
 한 줄짜리 블록일 경우라도 {}를 생략하지 않고, 명확히 줄 바꿈 하여 사용한다
 
 ```
-        if (todo == null && name == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "값이 없다");
-        }
-
-        if (todos.getPassword() == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "저장된 비밀번호가 없습니다.");
-        }
-
-        if (!todos.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호 일치 오류");
-        }
+if (session != null) {
+     session.invalidate();
+}
 ```
 
 <br/>
-<br/>
+<br/>   
 카멜 표기법을 이용하여 가독성을 향상시켰다.
 
 ```
-TodoResponseDto saveTodo(Todo todo);
-Todo findTodoById(Long id);  
+private final UserRepository userRepository;
+private final PasswordEncoder passwordEncoder;
 
 ```
 
@@ -130,55 +179,135 @@ Todo findTodoById(Long id);
 메소드명이 길어지더라도 의미 전달의 명확성에 목적을 두어 작성한다.<br/>
 
 ```
-List<TodoResponseDto> findConditionTodo(Date date, String name);
-
-int updateTodo(Long id, String Todo, String name);
+public class PasswordEqualsCheckException extends RuntimeException
 ```
 
 # 6. 트러블 슈팅
 
+https://computerreport.tistory.com/86
 
 # 7. 수행 결과
 
 ## 1.Todo 항목 생성
+
 ```
 POST /todos
 Body: {
-  "todo": "할 일",
-  "name": "작성자 이름",
-  "password": "비밀번호"
+    "title":"할일 제목",
+    "contents":"할일 내용"
 }
 ```
 
 <br/>
 
+## 2.Todo 전체 항목 조회
 
-## 2.Todo 항목 조회
 ```
 GET /todos/{id}
 ```
 
 <br/>
 
+## 3.Todo 선택 조회
 
-## 3.조건에 맞는 Todo 조회
 ```
-GET /todos?editDate={date}&name={name}
+GET /todos/{ID}
 ```
+
 <br/>
 
-## 4.조건에 맞는 Todo 조회
+## 4.Todo 수정
+
 ```
 PATCH /todos/{id}
 Body: {
-  "todo": "수정된 할 일",
-  "name": "수정된 작성자 이름",
-  "password": "비밀번호"
+    "title":"수정",
+    "contents":"수정 내용"
 }
 ```
+
 <br/>
 
 ## 5.Todo 항목 삭제
+
 ```
 DELETE /todos/{id}
 ```
+
+<br/>
+
+## 6.유저 생성
+
+```
+POST /users/signup
+Body: {
+    "userName":"유저명",
+    "email":"kob882333@naver.com",
+    "password":"12345678"
+}
+```
+
+<br/>
+
+## 7.전체 유저 조회
+
+```
+GET /users
+```
+
+<br/>
+
+## 8.유저 상세 조회
+
+```
+GET /users/{id}
+```
+
+<br/>
+
+## 9.유저 수정
+
+```
+PATCH /users/{id}
+Body:{
+    "title":"제목 수정"
+    "email":"이메일 수정"
+}
+```
+
+<br/>
+
+## 10.유저 삭제
+
+```
+DELETE /users/{id}
+```
+
+<br/>
+
+## 11.로그인
+
+```
+POST /session-login
+Body:{
+    "email" : "kob882333@naver.com",
+    "password" : "12345678"
+}
+```
+
+<br/>
+
+## 12.로그아웃
+
+```
+POST /session-logout
+```
+
+<br/>
+
+## 13.이메일 중복확인
+
+```
+GET /check?email={email}
+```
+
