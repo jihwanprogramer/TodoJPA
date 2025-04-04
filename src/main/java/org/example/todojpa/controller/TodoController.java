@@ -3,6 +3,7 @@ package org.example.todojpa.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.todojpa.common.Const;
 import org.example.todojpa.dto.TodoRequestDto;
@@ -18,17 +19,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
-
 public class TodoController {
 
     private final TodoService todoService;
 
     @PostMapping
-    public ResponseEntity<TodoResponseDto> save(@RequestBody TodoRequestDto todoRequestDto, HttpServletRequest request) {
+    public ResponseEntity<TodoResponseDto> save(@Valid @RequestBody TodoRequestDto todoRequestDto, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        TodoResponseDto save = todoService.save(loginUser.getEmail(),todoRequestDto.getTitle(), todoRequestDto.getContents());
+        TodoResponseDto save = todoService.save(loginUser.getEmail(), todoRequestDto.getTitle(), todoRequestDto.getContents());
 
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
@@ -50,7 +50,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long id, @RequestBody TodoRequestDto todoRequestDto) {
+    public ResponseEntity<TodoResponseDto> updateTodo(@Valid @PathVariable Long id, @RequestBody TodoRequestDto todoRequestDto) {
 
         TodoResponseDto updateTodo = todoService.updateTodo(id, todoRequestDto.getTitle(), todoRequestDto.getContents());
 
