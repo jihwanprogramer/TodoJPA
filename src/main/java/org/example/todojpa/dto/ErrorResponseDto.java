@@ -1,13 +1,10 @@
 package org.example.todojpa.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
-@Getter
-@Setter
+@Data
 public class ErrorResponseDto {
 
     private String code;
@@ -15,8 +12,8 @@ public class ErrorResponseDto {
     private String status;
     private LocalDateTime timestamp;
 
-    public ErrorResponseDto(String code,String message,String status){
-        this.code =code;
+    public ErrorResponseDto(String code, String message, String status) {
+        this.code = code;
         this.message = message;
         this.status = status;
         this.timestamp = LocalDateTime.now();
