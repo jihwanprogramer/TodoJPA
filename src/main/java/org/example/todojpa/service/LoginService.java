@@ -1,6 +1,8 @@
 package org.example.todojpa.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.todojpa.Exception.PasswordEqualsCheckException;
+import org.example.todojpa.config.PasswordEncoder;
 import org.example.todojpa.dto.LoginResponseDto;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.UserRepository;
@@ -11,12 +13,13 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto login(String email, String password) {
         User user =userRepository.findByEmailOrElseThrow(email);
 
-        if(!user.getPassword().equals(password)){
-            return new LoginResponseDto(null);
+        if(!passwordEncoder.matches(password,user.getPassword())){
+            throw new PasswordEqualsCheckException();
         }
 
         return new LoginResponseDto(user.getId());

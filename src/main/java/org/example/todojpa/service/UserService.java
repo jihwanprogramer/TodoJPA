@@ -1,6 +1,7 @@
 package org.example.todojpa.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.todojpa.config.PasswordEncoder;
 import org.example.todojpa.dto.UserResponseDto;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.UserRepository;
@@ -13,11 +14,12 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UserResponseDto save(String name, String email,String password) {
+    public UserResponseDto save(String name, String email, String password) {
 
-        User user = new User(name, email,password);
+        User user = new User(name, email, passwordEncoder.encode(password));
         User save = userRepository.save(user);
 
         return new UserResponseDto(save.getId(), save.getUsername(), save.getEmail());
