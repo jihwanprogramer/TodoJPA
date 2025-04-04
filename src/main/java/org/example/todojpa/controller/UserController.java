@@ -1,5 +1,6 @@
 package org.example.todojpa.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.example.todojpa.dto.UserRequestDto;
@@ -19,9 +20,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserRequestDto userRequestDto) {
 
-        UserResponseDto userResponseDto = userService.save(userRequestDto.getUserName(), userRequestDto.getEmail(),userRequestDto.getPassword());
+        UserResponseDto userResponseDto = userService.save(userRequestDto.getUserName(), userRequestDto.getEmail(), userRequestDto.getPassword());
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> updateUser(@Valid @PathVariable Long id, @RequestBody UserRequestDto userRequestDto) {
 
         UserResponseDto userResponseDto = userService.updateUser(id, userRequestDto.getUserName(), userRequestDto.getEmail());
 

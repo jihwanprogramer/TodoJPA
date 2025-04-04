@@ -17,7 +17,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
 
-    public TodoResponseDto save(String email,String title, String contents) {
+    public TodoResponseDto save(String email, String title, String contents) {
 
         User findUser = userRepository.findByEmailOrElseThrow(email);
 
@@ -26,7 +26,7 @@ public class TodoService {
 
         Todo save = todoRepository.save(todo);
 
-        return new TodoResponseDto(save.getId(),email,save.getTitle(), save.getContents());
+        return new TodoResponseDto(save.getId(), email, save.getTitle(), save.getContents());
 
     }
 
