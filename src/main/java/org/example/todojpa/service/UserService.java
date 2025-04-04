@@ -6,6 +6,7 @@ import org.example.todojpa.dto.UserResponseDto;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class UserService {
      * @param password 사용자 비밀번호
      * @return 저장된 사용자 응답 DTO
      */
+    @Transactional
     public UserResponseDto save(String name, String email, String password) {
         User user = new User(name, email, passwordEncoder.encode(password));
         User save = userRepository.save(user);
@@ -36,6 +38,7 @@ public class UserService {
      *
      * @return 사용자 응답 DTO의 리스트
      */
+    @Transactional(readOnly = true)
     public List<UserResponseDto> findAll() {
         return userRepository.findAll().stream().map(UserResponseDto::toDto).toList();
     }
@@ -46,6 +49,7 @@ public class UserService {
      * @param id 찾을 사용자의 ID
      * @return 찾은 사용자 응답 DTO
      */
+    @Transactional(readOnly = true)
     public UserResponseDto findById(Long id) {
         User findUser = userRepository.findByIdOrElseThrow(id);
         return UserResponseDto.toDto(findUser);
@@ -59,6 +63,7 @@ public class UserService {
      * @param email 새로운 사용자 이메일
      * @return 업데이트된 사용자 응답 DTO
      */
+    @Transactional
     public UserResponseDto updateUser(Long id, String username, String email) {
         User updateUser = userRepository.findByIdOrElseThrow(id);
         updateUser.updateUser(username, email);
@@ -70,6 +75,7 @@ public class UserService {
      *
      * @param id 삭제할 사용자의 ID
      */
+    @Transactional
     public void deleteUser(Long id) {
         User deleteUser = userRepository.findByIdOrElseThrow(id);
         userRepository.delete(deleteUser);

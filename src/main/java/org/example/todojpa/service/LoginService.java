@@ -7,6 +7,7 @@ import org.example.todojpa.dto.LoginResponseDto;
 import org.example.todojpa.entity.User;
 import org.example.todojpa.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class LoginService {
      * @return 로그인 응답 DTO
      * @throws PasswordEqualsCheckException 비밀번호가 일치하지 않을 때 발생
      */
+    @Transactional
     public LoginResponseDto login(String email, String password) {
         User user = userRepository.findByEmailOrElseThrow(email);
 
@@ -39,6 +41,7 @@ public class LoginService {
      * @param email 확인할 이메일
      * @return 사용 가능 여부 메시지
      */
+    @Transactional
     public String getEmail(String email) {
         if (userRepository.hasSameEmail(email)) {
             return "이미 존재하는 이메일 입니다";
