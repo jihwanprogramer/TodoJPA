@@ -14,7 +14,7 @@ https://documenter.getpostman.com/view/43187382/2sB2cU9Mnd
 
 ## ERD
 
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FpDVDS%2FbtsMURuLSF4%2F1G58ltbMQbeYYsTcXUKJPK%2Fimg.png" alt="배너" width="100%"/>
+<img src="https://github.com/jihwanprogramer/TodoJPA/blob/main/src/main/resources/static/image/ERD.PNG?raw=true" alt="배너" width="100%"/>
 
 # 2. Key Features (주요 기능)
 
