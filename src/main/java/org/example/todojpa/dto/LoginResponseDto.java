@@ -1,13 +1,10 @@
 package org.example.todojpa.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class LoginResponseDto {
 
     private final Long id;
-
 
 }

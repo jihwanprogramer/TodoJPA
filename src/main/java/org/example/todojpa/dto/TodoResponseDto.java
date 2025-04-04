@@ -1,11 +1,9 @@
 package org.example.todojpa.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import org.example.todojpa.entity.Todo;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class TodoResponseDto {
     private final Long id;
     private final String email;
@@ -13,7 +11,7 @@ public class TodoResponseDto {
     private final String contents;
 
     public static TodoResponseDto toDto(Todo todo) {
-        return new TodoResponseDto(todo.getId(), todo.getUser().getEmail(),todo.getTitle(), todo.getContents());
+        return new TodoResponseDto(todo.getId(), todo.getUser().getEmail(), todo.getTitle(), todo.getContents());
     }
 
 }
